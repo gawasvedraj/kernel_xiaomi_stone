@@ -771,6 +771,9 @@ else ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS += -Os
 endif
 
+KBUILD_CFLAGS += -mcpu=cortex-a78+crc+crypto -mtune=cortex-a78
+KBUILD_AFLAGS += -mcpu=cortex-a78+crc+crypto -mtune=cortex-a78
+
 ifdef CONFIG_CC_WERROR
 KBUILD_CFLAGS  += -Werror
 endif
