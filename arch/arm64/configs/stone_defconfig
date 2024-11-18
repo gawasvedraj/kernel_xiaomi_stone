@@ -706,3 +706,5 @@ CONFIG_UBSAN_TRAP=y
 # CONFIG_UBSAN_SHIFT is not set
 # CONFIG_UBSAN_BOOL is not set
 # CONFIG_UBSAN_ENUM is not set
+# procfs debloat
+CONFIG_PROC_STRIPPED=y
