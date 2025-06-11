@@ -829,6 +829,14 @@ enum htt_dbg_ext_stats_type {
      */
     HTT_DBG_EXT_STATS_PDEV_UL_MUMIMO_ELIGIBLE = 74,
 
+    /** HTT_DBG_EXT_STATS_PAPRD_PB
+     * PARAMS:
+     *   - No Params
+     * RESP MSG:
+     *   - htt_stats_phy_paprd_pb_tlv
+     */
+    HTT_DBG_EXT_STATS_PAPRD_PB = 75,
+
 
     /* keep this last */
     HTT_DBG_NUM_EXT_STATS = 256,
@@ -1894,6 +1902,8 @@ typedef struct _htt_tx_tid_stats_v1_tlv {
      */
     A_UINT32 head_msdu_tqm_timestamp_us;
     A_UINT32 head_msdu_tqm_latency_us;
+    A_UINT32 pause_module_id_ext;
+    A_UINT32 block_module_id_ext;
 } htt_stats_tx_tid_details_v1_tlv;
 /* preserve old name alias for new name consistent with the tag name */
 typedef htt_stats_tx_tid_details_v1_tlv htt_tx_tid_stats_v1_tlv;
@@ -1966,9 +1976,9 @@ typedef struct {
     A_UINT32 mpdu_cnt;
     /** Number of rx MSDU */
     A_UINT32 msdu_cnt;
-    /** pause bitmap */
+    /** lower 32 bits of pause bitmap */
     A_UINT32 pause_bitmap;
-    /** block bitmap */
+    /** lower 32 bits of block bitmap */
     A_UINT32 block_bitmap;
     /** current timestamp */
     A_UINT32 current_timestamp;
@@ -1998,6 +2008,10 @@ typedef struct {
     A_UINT32 inactive_time;
     /** Number of MPDUs dropped after max retries */
     A_UINT32 remove_mpdus_max_retries;
+    /** extension with upper 32 bits of pause bitmap */
+    A_UINT32 pause_bitmap_ext;
+    /** extension with upper 32 bits of block bitmap */
+    A_UINT32 block_bitmap_ext;
 } htt_stats_peer_stats_cmn_tlv;
 /* preserve old name alias for new name consistent with the tag name */
 typedef htt_stats_peer_stats_cmn_tlv htt_peer_stats_cmn_tlv;
@@ -10532,6 +10546,56 @@ typedef struct {
     htt_stats_vdev_txrx_stats_hw_stats_tlv vdev_hw_stats[1/*or more*/];
 } htt_vdevs_txrx_stats_t;
 #endif /* ATH_TARGET */
+
+/* PAPRD and power boost stats and counters */
+typedef struct {
+    htt_tlv_hdr_t tlv_hdr;
+
+    /** current pdev_id */
+    A_UINT32 pdev_id;
+    /** DPD and PowerBoost trigger count */
+    A_UINT32 total_dpd_cal_count;
+    A_UINT32 chan_change_dpd_cal_count;
+    A_UINT32 thermal_dpd_cal_count;
+    A_UINT32 recovery_dpd_cal_count;
+    A_UINT32 pb_cal_count;
+    /** DPD and PowerBoost Fail Count */
+    A_UINT32 total_dpd_fail_count;
+    A_UINT32 chan_change_dpd_fail_count;
+    A_UINT32 thermal_dpd_fail_count;
+    A_UINT32 recovery_dpd_fail_count;
+    A_UINT32 pb_fail_count;
+
+    /*
+     * DPD and Power Boost validity status
+     *
+     * BIT 0 - DPD_CAL_STATUS
+     * BIT 1 - PB_CAL_STATUS
+     *
+     * CAL_STATUS can be interpreted as below
+     * CAL_SUCCESS = 1
+     * CAL_FAIL = 0
+     */
+    union {
+        A_UINT32 dpd_pb_validity_status;
+        struct {
+            A_UINT32 is_dpd_valid:1,
+                     is_pb_valid:1,
+                     rsvd:30;
+        };
+    };
+
+    /** Last DPD cal time in ms */
+    A_UINT32 last_dpd_cal_time;
+
+    /** Last Power Boost cal time in ms */
+    A_UINT32 last_pb_cal_time;
+
+    /** Power Boost gain per BW and MCS, in 0.25 dB units
+     * For example, a value of 2 represents a 0.5 dB gain.
+     */
+    A_UINT32 power_boost_gain[HTT_TX_PDEV_STATS_NUM_BE_BW_COUNTERS][HTT_TX_PDEV_STATS_NUM_BE_MCS_COUNTERS];
+} htt_stats_phy_paprd_pb_tlv;
 
 typedef struct {
     union {
