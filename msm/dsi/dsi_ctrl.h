@@ -312,9 +312,6 @@ struct dsi_ctrl {
 	u32 cmd_trigger_frame;
 	atomic_t cmd_success_line;
 	atomic_t cmd_success_frame;
-	u32 cmd_engine_refcount;
-	u32 pending_cmd_flags;
-	atomic64_t cmd_success_ts;
 };
 
 /**
