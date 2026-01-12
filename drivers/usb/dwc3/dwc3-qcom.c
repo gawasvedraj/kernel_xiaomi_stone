@@ -615,13 +615,13 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
 	ret = reset_control_deassert(qcom->resets);
 	if (ret) {
 		dev_err(&pdev->dev, "failed to deassert resets, err=%d\n", ret);
-		return ret;
+		goto reset_assert;
 	}
 
 	ret = dwc3_qcom_clk_init(qcom, of_clk_get_parent_count(np));
 	if (ret) {
 		dev_err(dev, "failed to get clocks\n");
-		return ret;
+		goto reset_assert;
 	}
 
 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
@@ -700,6 +700,8 @@ clk_disable:
 		clk_disable_unprepare(qcom->clks[i]);
 		clk_put(qcom->clks[i]);
 	}
+reset_assert:
+	reset_control_assert(qcom->resets);
 
 	return ret;
 }
@@ -722,6 +724,8 @@ static int dwc3_qcom_remove(struct platform_device *pdev)
 		clk_put(qcom->clks[i]);
 	}
 	qcom->num_clocks = 0;
+
+	reset_control_assert(qcom->resets);
 
 	pm_runtime_allow(dev);
 	pm_runtime_disable(dev);
