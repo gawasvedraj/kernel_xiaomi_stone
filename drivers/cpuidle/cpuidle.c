@@ -742,8 +742,7 @@ EXPORT_SYMBOL_GPL(cpuidle_register);
 static int cpuidle_latency_notify(struct notifier_block *b,
 		unsigned long l, void *v)
 {
-	if (!lpm_sleep_disabled())
-		wake_up_all_idle_cpus();
+	wake_up_all_idle_cpus();
 	return NOTIFY_OK;
 }
 
