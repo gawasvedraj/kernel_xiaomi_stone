@@ -39,6 +39,8 @@
 #include <linux/time.h>
 #include <linux/poll.h>
 
+#include <misc/sybau.h>
+
 extern s32 i2c_smbus_write_word_data(const struct i2c_client *client, u8 command,
 			      u16 value);
 extern s32 i2c_smbus_read_word_data(const struct i2c_client *client, u8 command);
@@ -844,6 +846,7 @@ static int read_fcc_form_cycle_count(struct sm_fg_chip *sm)
 	return ret;
 }
 
+__attribute__((unused))
 static int fg_read_fcc(struct sm_fg_chip *sm)
 {
 	int ret = 0;
