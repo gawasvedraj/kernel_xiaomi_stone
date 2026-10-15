@@ -306,7 +306,10 @@ static int smb5_chg_config_init(struct smb5 *chip)
 {
 	struct smb_charger *chg = &chip->chg;
 	struct device_node *node = chg->dev->of_node;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wvoid-pointer-to-int-cast"
 	int subtype = (u8)of_device_get_match_data(chg->dev);
+#pragma GCC diagnostic pop
 
 	switch (subtype) {
 	case PM8150B:

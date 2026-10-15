@@ -1826,7 +1826,10 @@ thermal_boost_store(struct device *dev,
 				      struct device_attribute *attr, const char *buf, size_t len)
 {
 	int ret;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfortify-source"
 	ret = snprintf(boost_buf, PAGE_SIZE, buf);
+#pragma GCC diagnostic pop
 	return len;
 }
 
@@ -1906,8 +1909,10 @@ static ssize_t
 thermal_board_sensor_temp_store(struct device *dev,
 				struct device_attribute *attr, const char *buf, size_t len)
 {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfortify-source"
        snprintf(board_sensor_temp, PAGE_SIZE, buf);
-
+#pragma GCC diagnostic pop
        return len;
 }
 

@@ -5623,7 +5623,7 @@ end:
 
 static int dsi_display_pre_release(void *data)
 {
-	struct dsi_display *display;
+	struct dsi_display *display __maybe_unused;
 
 	if (!data)
 		return -EINVAL;
@@ -5678,7 +5678,7 @@ static ssize_t sysfs_dimlayer_exposure_write(struct device *dev,
 {
 	struct dsi_display *display;
 	struct dsi_panel *panel;
-	struct drm_connector *connector;
+	struct drm_connector *connector = NULL;
 	bool status;
 	int rc = 0;
 	display = dev_get_drvdata(dev);
@@ -5722,7 +5722,7 @@ static int dsi_display_sysfs_init(struct dsi_display *display)
 }
 static int dsi_display_sysfs_deinit(struct dsi_display *display)
 {
-	struct device *dev = &display->pdev->dev;
+	struct device *dev __maybe_unused = &display->pdev->dev;
 	
 	return 0;
 }
