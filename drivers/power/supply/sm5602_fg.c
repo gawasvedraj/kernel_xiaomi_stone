@@ -846,6 +846,7 @@ static int read_fcc_form_cycle_count(struct sm_fg_chip *sm)
 	return ret;
 }
 
+__maybe_unused
 static int fg_read_fcc(struct sm_fg_chip *sm)
 {
 	int ret = 0;

@@ -862,6 +862,7 @@ static int battery_sw_jeita(struct usbpd_pm *pdpm)
     int jeita_curr = 0;
     int pd_auth = 0;
     int cycle_volt = 0;
+    int fast_mode = 0;
 
     pd_auth = get_usbpd_verifed_state();
     usbpd_check_batverify(pdpm);
@@ -900,7 +901,7 @@ static int battery_sw_jeita(struct usbpd_pm *pdpm)
             jeita_curr  = CHG_BAT_CURR_2450MA;
 
     	// Apply the power profile limits (30W, 15W, 8W)
-        int fast_mode = fast_chg_get_mode(); 
+    	fast_mode = fast_chg_get_mode();
     	switch (fast_mode) {
     	    case FAST_CHARGE_30W:
         	jeita_curr = min(jeita_curr, 6000);

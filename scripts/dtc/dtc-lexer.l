@@ -39,6 +39,7 @@ extern bool treesource_error;
 #define DPRINT(fmt, ...)	do { } while (0)
 #endif
 
+__attribute__((__unused__))
 static int dts_version = 1;
 
 #define BEGIN_DEFAULT()		DPRINT("<V1>\n"); \
