@@ -20,6 +20,7 @@
 #include "hq_charger_manager.h"
 
 #include <misc/fastchg.h>
+#include <misc/sybau.h>
 
 #if 0
 int set_jeita_lcd_on_off(bool lcdon)

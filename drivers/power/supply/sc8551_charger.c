@@ -148,6 +148,8 @@ do {											\
 		printk(KERN_DEBUG "[sc8551-STANDALONE]:%s:" fmt, __func__, ##__VA_ARGS__);\
 } while(0);
 
+#include <misc/sybau.h>
+
 struct sc8551_cfg {
 	bool bat_ovp_disable;
 	bool bat_ocp_disable;

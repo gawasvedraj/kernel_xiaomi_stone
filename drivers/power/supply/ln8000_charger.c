@@ -67,6 +67,8 @@ do {                                            \
 		printk(KERN_DEBUG "ln8000-slave: %s: " fmt, __func__, ##__VA_ARGS__); \
 } while (0);
 
+#include <misc/sybau.h>
+
 #define LN8000_REG_PRINT(reg_addr, val)                         \
 do {                                                            \
 	ln_info("  --> [%-20s]   0x%02X   :   0x%02X\n",            \
@@ -1298,7 +1300,7 @@ static int ln8000_irq_init(struct ln8000_info *info)
 	if (info->pdata->irq_gpio) {
 		info->client->irq = gpiod_to_irq(pdata->irq_gpio);
 		if (info->client->irq < 0) {
-			ln_err("fail to get irq from gpio(irq_gpio=%p)\n", pdata->irq_gpio)
+			ln_err("fail to get irq from gpio(irq_gpio=%p)\n", pdata->irq_gpio);
 			info->client->irq = 0;
 			return -EINVAL;
 		}

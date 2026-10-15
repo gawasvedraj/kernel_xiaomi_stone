@@ -20,6 +20,7 @@
 #include "pd_policy_manager.h"
 
 #include <misc/fastchgtoggle.h>
+#include <misc/sybau.h>
 
 //config battery charge full voltage
 #define BATT_MAX_CHG_VOLT           4460
